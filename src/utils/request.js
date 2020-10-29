@@ -44,13 +44,14 @@ axios.interceptors.response.use(
 
 const specialDo = (res) => {
     if (res.status === 4030) {
-      if (window.isIframe) {
-        parent.window.location.href = res.login_url
-        // window.parent.postMessage({ RefreshLogin: res.login_url }, '*')
-      } else {
-        window.location.href = res.login_url
-        // Bus.$emit('RefreshLogin', res.login_url)
-      }
+      window.location.href = '/login'
+      // if (window.isIframe) {
+      //   parent.window.location.href = res.data.login_url
+      //   // window.parent.postMessage({ RefreshLogin: res.login_url }, '*')
+      // } else {
+      //   window.location.href = res.data.login_url
+      //   // Bus.$emit('RefreshLogin', res.login_url)
+      // }
     }
   }
   
