@@ -7,6 +7,7 @@ import App from './App'
 import router from './router'
 import '@/utils/request'
 import UTIL from '@/const'
+import 'default-passive-events'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

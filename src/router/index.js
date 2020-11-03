@@ -35,6 +35,18 @@ export default new Router({
           component: () => import('@/views/manager/menulist.vue'),
           name: 'MenuList',
 
+        },
+        {
+          path: 'userlist',
+          component: () => import('@/views/manager/userlist.vue'),
+          name: 'UserList',
+
+        },
+        {
+          path: 'rolelist',
+          component: () => import('@/views/manager/rolelist.vue'),
+          name: 'RoleList',
+
         }
       ]
     },

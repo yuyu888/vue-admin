@@ -20,6 +20,7 @@
     "codemirror": "5.32.0",
     "connect": "3.6.6",
     "cti-js-sdk": "3.5.2",
+    "default-passive-events": "^2.0.0",
     "driver.js": "0.5.2",
     "dropzone": "5.2.0",
     "echarts": "^4.2.1",

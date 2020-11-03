@@ -79,7 +79,7 @@ export default {
                 // 这里处理拿到的数据
                 if (res.status === 200) {
                     self.userInfo.name = res.data.login_user.real_name
-                    self.userInfo.avatar = res.data.login_user.avatar
+                    self.userInfo.avatar = res.data.login_user.avatar==''?'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2092511787,1157776987&fm=26&gp=0.jpg':res.data.login_user.avatar
                     // self.menulist = res.data.menuList
                 } else {}
             }).catch((e) => {
@@ -91,7 +91,6 @@ export default {
         collapse: function () {
             this.collapsed = !this.collapsed;
         },
-
     },
     mounted() {
 
