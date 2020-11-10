@@ -15,7 +15,7 @@
         </el-table-column>
         <el-table-column prop="real_name" label="姓名">
         </el-table-column>
-        <el-table-column prop="department" label="所属部门">
+        <el-table-column prop="department" label="所属业务部门">
         </el-table-column>
         <el-table-column prop="roles" label="拥有角色">
         </el-table-column>
@@ -25,12 +25,12 @@
         </el-table-column-->
         <el-table-column label="操作" fixed="right" width="200">
             <template slot-scope="scope" v-if="scope.row.status==1">
-                <el-button @click="modifyUser(scope.row.id, scope.row)" type="primary" size="mini">修改</el-button>
+                <el-button @click="modifyUser(scope.row.id, scope.row)" type="primary" size="mini">编辑</el-button>
                 <el-button @click="deleteUser(scope.row.id)" type="danger" size="mini">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
-    <el-pagination style="margin:10px;float:right" background @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total,  prev, pager, next" :page-size=page_size :total=total v-if="page-count>1">
+    <el-pagination style="margin:10px;float:right" background @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total,  prev, pager, next" :page-size=page_size :total=total v-if="total>page_size">
     </el-pagination>
     <el-dialog title="编辑用户" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
         <el-form :model="editUserForm" ref="editUserForm" label-width="100px" class="demo-ruleForm">
@@ -43,8 +43,11 @@
             <el-form-item label="邮箱:" prop="email">
                 <el-input v-model="editUserForm.email" disabled></el-input>
             </el-form-item>
-            <el-form-item label="所属部门:" prop="department">
-                <el-input v-model="editUserForm.department"></el-input>
+            <el-form-item label="所属业务部门:" prop="department">
+                <el-select v-model="editUserForm.department" placeholder="请选择">
+                    <el-option v-for="item in department_options" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="拥有角色">
                 <el-checkbox-group v-model="editUserForm.roleids">
@@ -68,9 +71,11 @@
             <el-form-item label="邮箱:" prop="email">
                 <el-input v-model="addUserForm.email"></el-input>
             </el-form-item>
-            <el-form-item label="所属部门:" prop="department">
-                <el-input v-model="addUserForm.department"></el-input>
-            </el-form-item>
+            <el-form-item label="所属业务部门:" prop="department">
+                <el-select v-model="addUserForm.department" placeholder="请选择">
+                    <el-option v-for="item in department_options" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>            </el-form-item>
             <el-form-item label="拥有角色">
                 <el-checkbox-group v-model="addUserForm.roleids">
                     <el-checkbox v-for="role in role_list" :label="role.id" :key="role.id">{{role.name}}</el-checkbox>
@@ -113,6 +118,22 @@ export default {
                 'department': '',
                 'roleids': []
             },
+            department_options: [{
+                value: '技术',
+                label: '技术'
+            }, {
+                value: '测试',
+                label: '测试'
+            }, {
+                value: '运营',
+                label: '运营'
+            }, {
+                value: '市场',
+                label: '市场'
+            }, {
+                value: '产品',
+                label: '产品'
+            }],
             addDialogVisible: false
         }
     },
@@ -132,7 +153,7 @@ export default {
                 if (res.status === 200) {
                     self.tableData = res.data.list
                     self.role_list = res.data.role_list
-                    self.total = res.data.count
+                    self.total = res.data.total
                 } else {
                     this.$message.error(res.message)
                 }
