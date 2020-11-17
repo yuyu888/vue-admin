@@ -11,10 +11,11 @@
         </el-table-column>
         <el-table-column prop="members" label="角色成员">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="280">
+        <el-table-column label="操作" fixed="right" width="380">
             <template slot-scope="scope">
                 <el-button @click="modifyRole(scope.row.id, scope.row.name)" type="primary" size="mini">修改名称</el-button>
                 <el-button @click="memberOpt(scope.row.id, scope.row.name)" type="success" size="mini">成员管理</el-button>
+                <el-button @click="menuOpt(scope.row.id, scope.row.name)" type="success" size="mini">授权菜单</el-button>
                 <el-button @click="deleteRole(scope.row.id)" type="danger" size="mini">删除</el-button>
             </template>
         </el-table-column>
@@ -64,12 +65,38 @@
             </el-table-column>
         </el-table>
     </el-dialog>
+    <el-dialog title="授权菜单" :visible.sync="menuDialogVisible">
+        {{menuRoleName}}:
+        <tree-table :data="menu_list" from="MenuList" :columns="columns" expandAll border v-loading="listLoading" :header-cell-style="{background:'#f5f5f5'}">
+            <el-table-column prop="menu_type" width="150" label="类型">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.menu_type==1">{{scope.row.type_show}}</el-tag>
+                    <el-tag type="warning" v-if="scope.row.menu_type==2">{{scope.row.type_show}}</el-tag>
+                    <el-tag type="info" v-if="scope.row.menu_type==3">{{scope.row.type_show}}</el-tag>
+                    <el-tag type="danger" v-if="scope.row.menu_type==4">{{scope.row.type_show}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column prop="sort_no" width="80" label="同级排序">
+            </el-table-column>
+            <el-table-column prop="operate" label="状态">
+                <template slot-scope="scope">
+                    <el-switch v-model="scope.row.has_auth" active-color="#13ce66" inactive-color="#ff4949" @change='authorize($event,scope.row.id)'>
+                    </el-switch>
+                </template>
+            </el-table-column>
+        </tree-table>
+    </el-dialog>
 </div>
 </template>
 
 <script>
+import treeTable from '@/components/TreeTable'
+
 export default {
     name: 'RoleList',
+    components: {
+        treeTable
+    },
     data() {
         return {
             tableData: [],
@@ -88,7 +115,22 @@ export default {
             memberRoleName: '',
             userList: [],
             memberList: [],
-            real_name: ''
+            real_name: '',
+            menuDialogVisible: false,
+            menuRoleName: '',
+            menuRoleId: 0,
+            menu_list: [],
+            columns: [{
+                    text: '名称',
+                    value: 'menu_name',
+                    width: 200
+                },
+                {
+                    text: '地址',
+                    value: 'menu_path'
+                }
+            ]
+
         }
     },
     created() {
@@ -301,6 +343,55 @@ export default {
                         type: 'success'
                     });
                     this.getRoleMember()
+                } else {
+                    this.$message.error(res.message)
+                }
+            }).catch((e) => {
+                // 有异常这里会输出
+                this.$message.error('接口请求失败')
+                console.log(e)
+            })
+            self.listLoading = false
+        },
+        menuOpt(roleid, rolename) {
+            var self = this
+            self.menuDialogVisible = true
+            self.menuRoleId = roleid
+            self.menuRoleName = rolename
+            self.listLoading = true
+            this.$ajax.get(this.UTIL.AJAX_BASEURL + '/api/manager/menu/role-list', {
+                role_id: roleid
+            }).then((res) => {
+                // 这里处理拿到的数据
+                if (res.status === 200) {
+                    self.menu_list = res.data.menu_list
+                } else {
+                    this.$message.error(res.message)
+                }
+                self.listLoading = false
+            }).catch((e) => {
+                // 有异常这里会输出
+                this.$message.error('接口请求失败')
+                console.log(e)
+            })
+        },
+        authorize($event, menu_id) {
+            var reqApi = this.UTIL.AJAX_BASEURL + '/api/manager/role/add-role-menu'
+            if ($event == false) {
+                reqApi = this.UTIL.AJAX_BASEURL + '/api/manager/role/delete-role-menu'
+            }
+            var self = this
+            self.listLoading = true
+            this.$ajax.post(reqApi, {
+                role_id: self.menuRoleId,
+                menu_id: menu_id
+            }).then((res) => {
+                // 这里处理拿到的数据
+                if (res.status === 200) {
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
                 } else {
                     this.$message.error(res.message)
                 }

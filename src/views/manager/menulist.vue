@@ -239,7 +239,9 @@ export default {
             }).then((res) => {
                 // 这里处理拿到的数据
                 if (res.status === 200) {
-                    self.editMenuForm.roleids=res.data
+                    if (res.data instanceof Array) {
+                        self.editMenuForm.roleids = res.data
+                    }
                 } else {
                     this.$message.error(res.message)
                 }
