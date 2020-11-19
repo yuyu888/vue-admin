@@ -10,7 +10,7 @@
                 <i style="font-size:30px;line-height:60px" :class="collapsed?'el-icon-s-unfold':'el-icon-s-fold'"></i>
             </div>
         </el-col>
-        <el-col :span="16" class="userinfo">
+        <el-col :span="12" class="userinfo">
             <el-dropdown trigger="hover">
                 <span class="el-dropdown-link userinfo-inner"><img :src="userInfo.avatar" />{{userInfo.name}}</span>
                 <el-dropdown-menu slot="dropdown">
@@ -63,7 +63,7 @@ export default {
     methods: {
         //退出登录
         logout: function () {
-            this.$ajax.get(this.UTIL.AJAX_BASEURL + '/api/manager/user/loginout', {}).then((res) => {
+            this.$ajax.get(this.UTIL.AJAX_BASEURL + '/api/common/sso/loginout', {}).then((res) => {
                 // 这里处理拿到的数据
                 if (res.status === 200) {
                     window.location.href = '/login'
@@ -75,12 +75,12 @@ export default {
         },
         init() {
             var self = this
-            this.$ajax.get(this.UTIL.AJAX_BASEURL + '/api/manager/common/auth', {}).then((res) => {
+            this.$ajax.get(this.UTIL.AJAX_BASEURL + '/api/common/sys/auth', {}).then((res) => {
                 // 这里处理拿到的数据
                 if (res.status === 200) {
                     self.userInfo.name = res.data.login_user.real_name
                     self.userInfo.avatar = res.data.login_user.avatar==''?'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2092511787,1157776987&fm=26&gp=0.jpg':res.data.login_user.avatar
-                    // self.menulist = res.data.menuList
+                    self.menulist = res.data.menu_list
                 } else {}
             }).catch((e) => {
                 // 有异常这里会输出
@@ -115,7 +115,6 @@ export default {
             text-align: right;
             padding-right: 35px;
             float: right;
-
             .userinfo-inner {
                 cursor: pointer;
                 color: #fff;

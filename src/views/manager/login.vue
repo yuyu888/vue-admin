@@ -1,7 +1,7 @@
 <template>
-<div>
+<div class="bg-style">
     <!--flex弹性盒子模型，justify-content：主抽 flex布局：弹性盒子布局http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html-->
-    <div style="display: flex;justify-content: center;margin-top: 150px" v-loading="listLoading">
+    <div style="display: flex;justify-content: center;margin-top: 180px" v-loading="listLoading">
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <span style="float: left; padding: 3px 0"><strong>用户登录</strong></span>
@@ -83,9 +83,9 @@ export default {
             var self = this
             self.listLoading = true
 
-            this.$ajax.post(this.UTIL.AJAX_BASEURL + '/api/manager/user/login', {
+            this.$ajax.post(this.UTIL.AJAX_BASEURL + '/api/common/sso/login', {
                 mobile: self.LoginForm.mobile,
-                password: md5(self.LoginForm.password) 
+                password: md5(self.LoginForm.password)
             }).then((res) => {
                 // 这里处理拿到的数据
                 if (res.status === 200) {
@@ -119,5 +119,18 @@ export default {
 
 .box-card {
     width: 480px;
+}
+
+.bg-style {
+    background: #D1DCE7 no-repeat top center;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 </style>
