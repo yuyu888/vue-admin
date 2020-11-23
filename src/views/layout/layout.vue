@@ -16,6 +16,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>我的消息</el-dropdown-item>
                     <el-dropdown-item>设置</el-dropdown-item>
+                    <el-dropdown-item @click.native="gotouserpage">用户管理</el-dropdown-item>
                     <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -29,7 +30,7 @@
             <div class="grid-content bg-purple-light">
                 <el-col :span="24" class="content-wrapper">
                     <transition name="fade" mode="out-in">
-                        <router-view></router-view>
+                        <container-main v-if="mainShow"></container-main>
                     </transition>
                 </el-col>
             </div>
@@ -40,11 +41,13 @@
 
 <script>
 import Sidebar from './components/Sidebar/index.vue'
+import ContainerMain from './components/ContainerMain.vue'
 
 export default {
     name: 'Layout',
     components: {
-        Sidebar
+        Sidebar,
+        ContainerMain
     },
     data() {
         return {
@@ -55,6 +58,16 @@ export default {
                 name: '',
                 avatar: '',
             },
+            mainShow: false,
+            menu_auth_list: {}
+        }
+    },
+    watch: {
+        $route(to, from) {
+            // console.log(from.path); //从哪来
+            // console.log(to.path); //到哪去
+            //console.log(this.$route.path)
+            this.checkPageAuth()
         }
     },
     created() {
@@ -79,8 +92,12 @@ export default {
                 // 这里处理拿到的数据
                 if (res.status === 200) {
                     self.userInfo.name = res.data.login_user.real_name
-                    self.userInfo.avatar = res.data.login_user.avatar==''?'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2092511787,1157776987&fm=26&gp=0.jpg':res.data.login_user.avatar
+                    self.userInfo.avatar = res.data.login_user.avatar == '' ? 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2092511787,1157776987&fm=26&gp=0.jpg' : res.data.login_user.avatar
                     self.menulist = res.data.menu_list
+                    self.menu_auth_list = res.data.menu_auth_list
+                    this.Right.MenuAuthList = res.data.menu_auth_list
+                    this.checkPageAuth()
+                    self.mainShow = true
                 } else {}
             }).catch((e) => {
                 // 有异常这里会输出
@@ -91,6 +108,15 @@ export default {
         collapse: function () {
             this.collapsed = !this.collapsed;
         },
+        checkPageAuth() {
+            var thispath = this.$route.path
+            if (this.menu_auth_list.hasOwnProperty(thispath) && this.menu_auth_list[thispath] == false) {
+                this.$router.push("/error/403")
+            }
+        },
+        gotouserpage() {
+            this.$router.push("/manager/userlist")
+        }
     },
     mounted() {
 
@@ -115,6 +141,7 @@ export default {
             text-align: right;
             padding-right: 35px;
             float: right;
+
             .userinfo-inner {
                 cursor: pointer;
                 color: #fff;

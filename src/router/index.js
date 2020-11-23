@@ -16,14 +16,23 @@ export default new Router({
       component: Layout
     },
     {
+      path: "*",
+      redirect: "/"
+    },
+    {
       path: '/login',
       name: 'Login',
       component: () => import('@/views/manager/login.vue'),
     },
     {
-      path: '/home',
-      name: 'Home',
-      component: () => import('@/views/manager/menulist.vue'),
+      path: '/error/404',
+      name: 'Page404',
+      component: () => import('@/views/errpage/404.vue'),
+    },
+    {
+      path: '/error/403',
+      name: 'Page403',
+      component: () => import('@/views/errpage/403.vue'),
     },
     {
       path: '/manager',

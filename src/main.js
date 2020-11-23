@@ -8,6 +8,8 @@ import router from './router'
 import '@/utils/request'
 import UTIL from '@/const'
 import 'default-passive-events'
+import Right from '@/utils/right'
+Vue.prototype.Right = Right;
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

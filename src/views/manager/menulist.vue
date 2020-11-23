@@ -148,9 +148,10 @@ export default {
                 this.$message.error('接口请求失败')
                 console.log(e)
             })
+
         },
         checkButton: function (path) {
-            return true
+            return this.Right.CheckPath(path,this.Right.MenuAuthList)
         },
         addMenuShow: function (fid) {
             this.fid = fid

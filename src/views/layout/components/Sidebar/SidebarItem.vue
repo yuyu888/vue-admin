@@ -1,13 +1,13 @@
 <template>
 <div v-if="item.has_auth">
     <div class="menubox" :class="{'cmenubgc':isCurrentMenu}" @click="cilckMenu(item.has_child, item.menu_path)">
-        <div class="mname"><b>{{item.menu_name}}</b></div>
+        <div class="mname">{{item.menu_name}}</div>
         <div class="childshow" v-if="item.has_child==true">
             <i class="el-icon-arrow-right" v-if="show_child==false"></i>
             <i class="el-icon-arrow-down" v-else></i>
         </div>
     </div>
-    <div style="padding-left:20px" v-if="item.has_child==true && show_child==true">
+    <div style="padding-left:25px" v-if="item.has_child==true && show_child==true">
         <sidebar-item v-for="child in item.children" :key="child.id" :item="child"></sidebar-item>
     </div>
 </div>
@@ -68,11 +68,13 @@ export default {
 }
 
 .cmenubgc {
+    color:#17171a8a;
+    font-weight:bold;
     background:  #d1d6d1;
 }
 
 .mname {
-    color: rgba(68, 66, 66, 0.966);
+    /* color: rgba(68, 66, 66, 0.966); */
     float: left;
     height: 20px;
 }
