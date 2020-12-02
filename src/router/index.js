@@ -69,6 +69,12 @@ export default new Router({
           component: () => import('@/views//editor/wangeditor.vue'),
           name: 'Wangeditor',
 
+        },
+        {
+          path: 'jsoneditor',
+          component: () => import('@/views//editor/jsoneditor.vue'),
+          name: 'JsonEditor',
+
         }
       ]
     },
