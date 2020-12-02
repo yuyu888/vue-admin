@@ -59,5 +59,18 @@ export default new Router({
         }
       ]
     },
+    {
+      path: '/editor',
+      component: Layout,
+      redirect: '/editor/wangeditor',
+      children: [
+        {
+          path: 'wangeditor',
+          component: () => import('@/views//editor/wangeditor.vue'),
+          name: 'Wangeditor',
+
+        }
+      ]
+    },
   ]
 })
