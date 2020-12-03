@@ -2,7 +2,8 @@
 <div>
     <div>文档：http://www.wangeditor.com/</div>
     <div>github：https://github.com/wangeditor-team/wangEditor/</div>
-
+    <div>一个支持markdown的编辑器，github：https://github.com/hinesboy/mavonEditor</div>
+    <div>这个也不错，https://www.yuque.com/chaojie-vjiel/vbwzgu/zg6zcq</div>
     <div id="editor"></div>
 </div>
 </template>
@@ -15,12 +16,15 @@ export default {
     data() {
         return {}
     },
-    created() {
+    // created() {
+    //     this.init() //需要使用setTimeout， 生命周期要清楚
+    // },
+    mounted() {
         this.init()
     },
     methods: {
         init() {
-            setTimeout(function () {
+            // setTimeout(function () {
                 const editor = new E("#editor");
                 // 默认情况下，显示所有菜单
                 // editor.config.menus = [
@@ -216,9 +220,9 @@ export default {
 
 
                 editor.create();
-                editor.txt.html('初始化数据')
+                editor.txt.html('初始化数据， 这个只是一个例子，需要用的时候单独封装')
                 //editor.txt.clear()
-            }, 500);
+            // }, 100);
 
         }
     }

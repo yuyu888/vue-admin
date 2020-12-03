@@ -75,6 +75,18 @@ export default new Router({
           component: () => import('@/views//editor/jsoneditor.vue'),
           name: 'JsonEditor',
 
+        },
+        {
+          path: 'jsonuieditor',
+          component: () => import('@/views//editor/jsonuieditor.vue'),
+          name: 'JsonUiEditor',
+
+        },
+        {
+          path: 'tablejsoneditor',
+          component: () => import('@/views//editor/tablejsoneditor.vue'),
+          name: 'TableJsonEditor',
+
         }
       ]
     },
