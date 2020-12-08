@@ -1,7 +1,7 @@
 <template >
 <div>
     <p>vue-json-editor</p>
-    <vue-json-editor v-model="json"  :show-btns="true" :mode="'code'"  style="height: 420px"  lang="zh" @json-change="onJsonChange" @json-save="onJsonSave" @has-error="onError"></vue-json-editor>
+    <vue-json-editor v-model="json" :show-btns="true" :mode="'code'" style="height: 420px" lang="zh" @json-change="onJsonChange" @json-save="onJsonSave" @has-error="onError"></vue-json-editor>
 </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
     components: {
         vueJsonEditor
     },
-
+    computed: {},
     methods: {
         onJsonChange(value) {
             console.log('value:', value);
@@ -48,11 +48,13 @@ export default {
         onError(value) {
             console.log('value:', value);
         }
+
     }
 }
 </script>
-<style >
-	.jsoneditor-vue{
-	    height: 100%;
-	}
+
+<style>
+.jsoneditor-vue {
+    height: 100%;
+}
 </style>

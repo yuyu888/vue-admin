@@ -60,6 +60,25 @@ export default new Router({
       ]
     },
     {
+      path: '/echart',
+      component: Layout,
+      redirect: '/echart/bar',
+      children: [
+        {
+          path: 'bar',
+          component: () => import('@/views/echart/bar.vue'),
+          name: 'Bar',
+
+        },
+        {
+          path: 'chinamap',
+          component: () => import('@/views/echart/chinamap.vue'),
+          name: 'ChinaMap',
+
+        }
+      ]
+    },
+    {
       path: '/editor',
       component: Layout,
       redirect: '/editor/wangeditor',

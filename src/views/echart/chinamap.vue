@@ -1,0 +1,220 @@
+<template>
+<div>
+    <div id="chart-map" style="width: 1200px;height:800px;"></div>
+    <div>更多表现：https://www.jianshu.com/p/830bc0ce4fa7</div>
+
+</div>
+</template>
+
+<script>
+import echarts from 'echarts'
+import chinageo from '@/utils/map/json/china.json'
+
+export default {
+    name: 'ChinaMap',
+    data() {
+        return {}
+    },
+    mounted() {
+        this.createMap();
+    },
+    methods: {
+        createMap() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChartContainer = document.getElementById('chart-map');
+            echarts.registerMap('china', chinageo)
+
+            var myChartChina = echarts.init(myChartContainer);
+
+            function randomData() {
+                return Math.round(Math.random() * 500);
+            }
+            // 绘制图表
+            var optionMap = {
+                tooltip: {},
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['']
+                },
+                visualMap: {
+                    min: 0,
+                    max: 1500,
+                    left: '10%',
+                    top: 'bottom',
+                    text: ['高', '低'],
+                    calculable: true,
+                    color: ['#0b50b9', '#c3e2f4']
+                },
+                selectedMode: 'single',
+                series: [{
+                    name: '',
+                    type: 'map',
+                    mapType: 'china',
+                    itemStyle: {
+                        normal: {
+                            borderColor: 'rgba(0, 0, 0, 0.2)'
+                        },
+                        emphasis: {
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowBlur: 20,
+                            borderWidth: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                    showLegendSymbol: true,
+                    label: {
+                        normal: {
+                            show: true
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    data: [{
+                            name: '北京',
+                            value: randomData()
+                        },
+                        {
+                            name: '天津',
+                            value: randomData()
+                        },
+                        {
+                            name: '上海',
+                            value: randomData()
+                        },
+                        {
+                            name: '重庆',
+                            value: randomData()
+                        },
+                        {
+                            name: '河北',
+                            value: randomData()
+                        },
+                        {
+                            name: '河南',
+                            value: randomData()
+                        },
+                        {
+                            name: '云南',
+                            value: randomData()
+                        },
+                        {
+                            name: '辽宁',
+                            value: randomData()
+                        },
+                        {
+                            name: '黑龙江',
+                            value: randomData()
+                        },
+                        {
+                            name: '湖南',
+                            value: randomData()
+                        },
+                        {
+                            name: '安徽',
+                            value: randomData()
+                        },
+                        {
+                            name: '山东',
+                            value: randomData()
+                        },
+                        {
+                            name: '新疆',
+                            value: randomData()
+                        },
+                        {
+                            name: '江苏',
+                            value: randomData()
+                        },
+                        {
+                            name: '浙江',
+                            value: randomData()
+                        },
+                        {
+                            name: '江西',
+                            value: randomData()
+                        },
+                        {
+                            name: '湖北',
+                            value: randomData()
+                        },
+                        {
+                            name: '广西',
+                            value: randomData()
+                        },
+                        {
+                            name: '甘肃',
+                            value: randomData()
+                        },
+                        {
+                            name: '山西',
+                            value: randomData()
+                        },
+                        {
+                            name: '内蒙古',
+                            value: randomData()
+                        },
+                        {
+                            name: '陕西',
+                            value: randomData()
+                        },
+                        {
+                            name: '吉林',
+                            value: randomData()
+                        },
+                        {
+                            name: '福建',
+                            value: randomData()
+                        },
+                        {
+                            name: '贵州',
+                            value: randomData()
+                        },
+                        {
+                            name: '广东',
+                            value: randomData()
+                        },
+                        {
+                            name: '青海',
+                            value: randomData()
+                        },
+                        {
+                            name: '西藏',
+                            value: randomData()
+                        },
+                        {
+                            name: '四川',
+                            value: randomData()
+                        },
+                        {
+                            name: '宁夏',
+                            value: randomData()
+                        },
+                        {
+                            name: '海南',
+                            value: randomData()
+                        },
+                        {
+                            name: '台湾',
+                            value: randomData()
+                        },
+                        {
+                            name: '香港',
+                            value: randomData()
+                        },
+                        {
+                            name: '澳门',
+                            value: randomData()
+                        }
+                    ]
+                }]
+            }
+
+            myChartChina.setOption(optionMap);
+        }
+
+    }
+}
+</script>
